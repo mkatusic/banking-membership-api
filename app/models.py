@@ -5,7 +5,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from decimal import Decimal
 
-from sqlalchemy import Numeric
+from sqlalchemy import Numeric, Index, text
 
 
 class Base(DeclarativeBase):
@@ -56,6 +56,15 @@ class Plan(Base):
 class Subscription(Base):
     __tablename__ = "subscriptions"
 
+    __table_args__ = (
+        Index(
+            "uq_active_subscription_per_customer",
+            "customer_id",
+            unique=True,
+            postgresql_where=text("status = 'ACTIVE'"),
+        ),
+    )
+
     id: Mapped[int] = mapped_column(
         Identity(always=True),
         primary_key=True
@@ -82,3 +91,4 @@ class Subscription(Base):
         server_default=func.current_timestamp(),
         nullable=False
     )
+

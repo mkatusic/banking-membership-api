@@ -37,3 +37,7 @@ class Subscription(Base):
         server_default=func.current_timestamp(),
         nullable=False,
     )
+    canceled_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )

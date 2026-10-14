@@ -16,3 +16,4 @@ class SubscriptionResponse(BaseModel):
     plan_id: int
     status: str
     created_at: datetime
+    canceled_at: datetime | None
